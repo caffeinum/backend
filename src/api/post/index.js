@@ -7,7 +7,7 @@ import { schema } from './model'
 export Post, { schema } from './model'
 
 const router = new Router()
-const { title, url, author, image, theme, summary, text } = schema.tree
+const { title, url, author, image, search_query, keywords, summary, text } = schema.tree
 
 /**
  * @api {post} /posts Create post
@@ -16,9 +16,11 @@ const { title, url, author, image, theme, summary, text } = schema.tree
  * @apiPermission admin
  * @apiParam {String} access_token admin access token.
  * @apiParam title Post's title.
+ * @apiParam url Post's url – should be unique.
  * @apiParam author Post's author.
  * @apiParam image Post's image.
- * @apiParam theme Post's theme.
+ * @apiParam search_query Post's search_query.
+ * @apiParam summary Post's summary.
  * @apiParam text Post's text.
  * @apiSuccess {Object} post Post's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
@@ -27,7 +29,7 @@ const { title, url, author, image, theme, summary, text } = schema.tree
  */
 router.post('/',
   token({ required: true, roles: ['admin'] }),
-  body({ title, url, author, image, theme, summary, text }),
+  body({ title, url, author, image, search_query, keywords, summary, text }),
   create)
 
 /**
@@ -63,7 +65,7 @@ router.get('/:id',
  * @apiParam title Post's title.
  * @apiParam author Post's author.
  * @apiParam image Post's image.
- * @apiParam theme Post's theme.
+ * @apiParam search_query Post's search_query.
  * @apiParam text Post's text.
  * @apiSuccess {Object} post Post's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
@@ -72,7 +74,7 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
-  body({ title, url, author, image, theme, summary, text }),
+  body({ title, url, author, image, search_query, keywords, summary, text }),
   update)
 
 /**

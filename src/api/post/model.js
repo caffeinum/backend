@@ -17,7 +17,7 @@ const postSchema = new Schema({
   image: {
     type: String,
   },
-  theme: {
+  search_query: {
     type: String,
   },
   summary: {
@@ -26,6 +26,9 @@ const postSchema = new Schema({
   text: {
     type: String,
   },
+  keywords: {
+    type: [String],
+  }
 }, {
   timestamps: true,
   toJSON: {
@@ -43,7 +46,7 @@ postSchema.methods = {
       url: this.url,
       author: this.author,
       image: this.image,
-      theme: this.theme,
+      search_query: this.search_query,
       text: this.text,
       summary: this.summary,
       createdAt: this.createdAt,
