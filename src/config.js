@@ -39,7 +39,7 @@ const config = {
   test: { },
   development: {
     mongo: {
-      uri: 'mongodb://localhost/justmedia-dev',
+      uri: 'mongodb://localhost:27017/justmedia-dev',
       options: {
         debug: true
       }
@@ -49,7 +49,7 @@ const config = {
     ip: process.env.IP || undefined,
     port: process.env.PORT || 8080,
     mongo: {
-      uri: process.env.MONGODB_URI || 'mongodb://localhost/justmedia'
+      uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/justmedia'
     }
   }
 }
