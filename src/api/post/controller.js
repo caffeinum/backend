@@ -5,7 +5,18 @@ export const create = ({ bodymen: { body } }, res, next) =>
   Post.create(body)
     .then((post) => post.view(true))
     .then(success(res, 201))
-    .catch(next)
+    .catch((err) => {
+      /* istanbul ignore else */
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).json({
+          valid: false,
+          param: 'url',
+          message: 'this url already added'
+        })
+      } else {
+        next(err)
+      }
+    })
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   Post.count(query)

@@ -14,13 +14,13 @@ beforeEach(async () => {
   const admin = await User.create({ email: 'c@c.com', password: '123456', role: 'admin' })
   userSession = signSync(user.id)
   adminSession = signSync(admin.id)
-  post = await Post.create({})
+  post = await Post.create({ title: 'Great Post', url: 'http://greatpost.com' })
 })
 
 test('POST /posts 201 (admin)', async () => {
   const { status, body } = await request(app())
     .post(`${apiRoot}`)
-    .send({ access_token: adminSession, title: 'test', author: 'test', image: 'test', theme: 'test', text: 'test' })
+    .send({ access_token: adminSession, title: 'test', url: 'https://test.com', author: 'test', image: 'test', theme: 'test', text: 'test' })
   expect(status).toBe(201)
   expect(typeof body).toEqual('object')
   expect(body.title).toEqual('test')
@@ -28,6 +28,15 @@ test('POST /posts 201 (admin)', async () => {
   expect(body.image).toEqual('test')
   expect(body.theme).toEqual('test')
   expect(body.text).toEqual('test')
+})
+
+test('POST /users 409 (admin) - duplicated url', async () => {
+  const { status, body } = await request(app())
+    .post(`${apiRoot}`)
+    .send({ access_token: adminSession, title: 'test', url: 'http://greatpost.com', author: 'test', image: 'test', theme: 'test', text: 'test' })
+  expect(status).toBe(409)
+  expect(typeof body).toBe('object')
+  expect(body.param).toBe('url')
 })
 
 test('POST /posts 401 (user)', async () => {
@@ -68,7 +77,7 @@ test('GET /posts/:id 404', async () => {
 test('PUT /posts/:id 200 (admin)', async () => {
   const { status, body } = await request(app())
     .put(`${apiRoot}/${post.id}`)
-    .send({ access_token: adminSession, title: 'test', author: 'test', image: 'test', theme: 'test', text: 'test' })
+    .send({ access_token: adminSession, title: 'test', url: 'https://test.com', author: 'test', image: 'test', theme: 'test', text: 'test' })
   expect(status).toBe(200)
   expect(typeof body).toEqual('object')
   expect(body.id).toEqual(post.id)
@@ -95,7 +104,7 @@ test('PUT /posts/:id 401', async () => {
 test('PUT /posts/:id 404 (admin)', async () => {
   const { status } = await request(app())
     .put(apiRoot + '/123456789098765432123456')
-    .send({ access_token: adminSession, title: 'test', author: 'test', image: 'test', theme: 'test', text: 'test' })
+    .send({ access_token: adminSession, title: 'test', url: 'https://test.com', author: 'test', image: 'test', theme: 'test', text: 'test' })
   expect(status).toBe(404)
 })
 

@@ -3,7 +3,7 @@ import { Post } from '.'
 let post
 
 beforeEach(async () => {
-  post = await Post.create({ title: 'test', author: 'test', image: 'test', theme: 'test', text: 'test' })
+  post = await Post.create({ title: 'test', url: 'https://example.com', author: 'test', image: 'test', theme: 'test', text: 'test' })
 })
 
 describe('view', () => {

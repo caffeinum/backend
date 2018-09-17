@@ -4,6 +4,13 @@ const postSchema = new Schema({
   title: {
     type: String
   },
+  url: {
+    type: String,
+    match: /^https?:\/\//,
+    required: true,
+    unique: true,
+    trim: true
+  },
   author: {
     type: String
   },
@@ -33,6 +40,7 @@ postSchema.methods = {
       // simple view
       id: this.id,
       title: this.title,
+      url: this.url,
       author: this.author,
       image: this.image,
       theme: this.theme,
