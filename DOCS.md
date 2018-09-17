@@ -100,9 +100,11 @@
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>admin access token.</p>							|
 | title			| 			|  <p>Post's title.</p>							|
+| url			| 			|  <p>Post's url – should be unique.</p>							|
 | author			| 			|  <p>Post's author.</p>							|
 | image			| 			|  <p>Post's image.</p>							|
-| theme			| 			|  <p>Post's theme.</p>							|
+| search_query			| 			|  <p>Post's search_query.</p>							|
+| summary			| 			|  <p>Post's summary.</p>							|
 | text			| 			|  <p>Post's text.</p>							|
 
 ## Delete post
@@ -157,7 +159,7 @@
 | title			| 			|  <p>Post's title.</p>							|
 | author			| 			|  <p>Post's author.</p>							|
 | image			| 			|  <p>Post's image.</p>							|
-| theme			| 			|  <p>Post's theme.</p>							|
+| search_query			| 			|  <p>Post's search_query.</p>							|
 | text			| 			|  <p>Post's text.</p>							|
 
 # User
