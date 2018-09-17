@@ -14,34 +14,34 @@ const userSchema = new Schema({
     required: true,
     unique: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   password: {
     type: String,
     required: true,
-    minlength: 6
+    minlength: 6,
   },
   name: {
     type: String,
     index: true,
-    trim: true
+    trim: true,
   },
   services: {
     facebook: String,
     github: String,
-    google: String
+    google: String,
   },
   role: {
     type: String,
     enum: roles,
-    default: 'user'
+    default: 'user',
   },
   picture: {
     type: String,
-    trim: true
-  }
+    trim: true,
+  },
 }, {
-  timestamps: true
+  timestamps: true,
 })
 
 userSchema.path('email').set(function (email) {
@@ -85,7 +85,7 @@ userSchema.methods = {
 
   authenticate (password) {
     return bcrypt.compare(password, this.password).then((valid) => valid ? this : false)
-  }
+  },
 }
 
 userSchema.statics = {
@@ -103,7 +103,7 @@ userSchema.statics = {
         return this.create({ services: { [service]: id }, email, password, name, picture })
       }
     })
-  }
+  },
 }
 
 userSchema.plugin(mongooseKeywords, { paths: ['email', 'name'] })

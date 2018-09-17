@@ -81,7 +81,7 @@ test('POST /auth/facebook 201', async () => {
     id: '123',
     name: 'user',
     email: 'b@b.com',
-    picture: 'test.jpg'
+    picture: 'test.jpg',
   }))
   const { status, body } = await request(app())
     .post(apiRoot + '/facebook')
@@ -105,7 +105,7 @@ test('POST /auth/github 201', async () => {
     id: '123',
     name: 'user',
     email: 'b@b.com',
-    picture: 'test.jpg'
+    picture: 'test.jpg',
   }))
   const { status, body } = await request(app())
     .post(apiRoot + '/github')
@@ -129,7 +129,7 @@ test('POST /auth/google 201', async () => {
     id: '123',
     name: 'user',
     email: 'b@b.com',
-    picture: 'test.jpg'
+    picture: 'test.jpg',
   }))
   const { status, body } = await request(app())
     .post(apiRoot + '/google')

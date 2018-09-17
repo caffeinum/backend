@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
   const dotenv = require('dotenv-safe')
   dotenv.load({
     path: path.join(__dirname, '../.env'),
-    sample: path.join(__dirname, '../.env.example')
+    sample: path.join(__dirname, '../.env.example'),
   })
 }
 
@@ -31,27 +31,27 @@ const config = {
     mongo: {
       options: {
         db: {
-          safe: true
-        }
-      }
-    }
+          safe: true,
+        },
+      },
+    },
   },
   test: { },
   development: {
     mongo: {
       uri: 'mongodb://localhost:27017/justmedia-dev',
       options: {
-        debug: true
-      }
-    }
+        debug: true,
+      },
+    },
   },
   production: {
     ip: process.env.IP || undefined,
     port: process.env.PORT || 8080,
     mongo: {
-      uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/justmedia'
-    }
-  }
+      uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/justmedia',
+    },
+  },
 }
 
 module.exports = merge(config.all, config[config.all.env])

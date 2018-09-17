@@ -7,7 +7,7 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .then(count => User.find(query, select, cursor)
       .then(users => ({
         rows: users.map((user) => user.view()),
-        count
+        count,
       }))
     )
     .then(success(res))
@@ -36,7 +36,7 @@ export const create = ({ bodymen: { body } }, res, next) =>
         res.status(409).json({
           valid: false,
           param: 'email',
-          message: 'email already registered'
+          message: 'email already registered',
         })
       } else {
         next(err)
@@ -53,7 +53,7 @@ export const update = ({ bodymen: { body }, params, user }, res, next) =>
       if (!isSelfUpdate && !isAdmin) {
         res.status(401).json({
           valid: false,
-          message: 'You can\'t change other user\'s data'
+          message: 'You can\'t change other user\'s data',
         })
         return null
       }
@@ -74,7 +74,7 @@ export const updatePassword = ({ bodymen: { body }, params, user }, res, next) =
         res.status(401).json({
           valid: false,
           param: 'password',
-          message: 'You can\'t change other user\'s password'
+          message: 'You can\'t change other user\'s password',
         })
         return null
       }

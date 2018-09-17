@@ -104,8 +104,8 @@ passport.use('token', new JwtStrategy({
   jwtFromRequest: ExtractJwt.fromExtractors([
     ExtractJwt.fromUrlQueryParameter('access_token'),
     ExtractJwt.fromBodyField('access_token'),
-    ExtractJwt.fromAuthHeaderWithScheme('Bearer')
-  ])
+    ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+  ]),
 }, ({ id }, done) => {
   User.findById(id).then((user) => {
     done(null, user)

@@ -5,12 +5,12 @@ export const getUser = (accessToken) =>
     uri: 'https://www.googleapis.com/userinfo/v2/me',
     json: true,
     qs: {
-      access_token: accessToken
-    }
+      access_token: accessToken,
+    },
   }).then(({ id, name, email, picture }) => ({
     service: 'google',
     picture,
     id,
     name,
-    email
+    email,
   }))

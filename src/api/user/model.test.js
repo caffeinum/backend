@@ -70,7 +70,7 @@ describe('createFromService', () => {
       id: '123',
       name: 'Test Name',
       email: 'test@test.com',
-      picture: 'test.jpg'
+      picture: 'test.jpg',
     }
   })
 

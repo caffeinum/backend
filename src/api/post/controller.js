@@ -11,7 +11,7 @@ export const create = ({ bodymen: { body } }, res, next) =>
         res.status(409).json({
           valid: false,
           param: 'url',
-          message: 'this url already added'
+          message: 'this url already added',
         })
       } else {
         next(err)
@@ -23,7 +23,7 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .then(count => Post.find(query, select, cursor)
       .then((posts) => ({
         count,
-        rows: posts.map((post) => post.view())
+        rows: posts.map((post) => post.view()),
       }))
     )
     .then(success(res))

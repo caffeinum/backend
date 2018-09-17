@@ -2,36 +2,36 @@ import mongoose, { Schema } from 'mongoose'
 
 const postSchema = new Schema({
   title: {
-    type: String
+    type: String,
   },
   url: {
     type: String,
     match: /^https?:\/\//,
     required: true,
     unique: true,
-    trim: true
+    trim: true,
   },
   author: {
-    type: String
+    type: String,
   },
   image: {
-    type: String
+    type: String,
   },
   theme: {
-    type: String
+    type: String,
   },
   summary: {
-    type: String
+    type: String,
   },
   text: {
-    type: String
+    type: String,
   },
 }, {
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id }
-  }
+    transform: (obj, ret) => { delete ret._id },
+  },
 })
 
 postSchema.methods = {
@@ -47,14 +47,14 @@ postSchema.methods = {
       text: this.text,
       summary: this.summary,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
     }
 
     return full ? {
-      ...view
+      ...view,
       // add properties for a full view
     } : view
-  }
+  },
 }
 
 const model = mongoose.model('Post', postSchema)

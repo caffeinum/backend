@@ -42,21 +42,21 @@ it('parses github user', async () => {
       name: 'personal',
       space: 9999999,
       collaborators: 0,
-      private_repos: 9999
-    }
+      private_repos: 9999,
+    },
   }
   const ghUserEmails = [{
     email: 'email@example.com',
     primary: true,
-    verified: true
+    verified: true,
   }, {
     email: 'email2@example.com',
     primary: false,
-    verified: true
+    verified: true,
   }, {
     email: 'email3@example.com',
     primary: false,
-    verified: true
+    verified: true,
   }]
 
   nock('https://api.github.com').get('/user').query(true).reply(200, ghUser)

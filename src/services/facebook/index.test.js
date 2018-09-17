@@ -6,7 +6,7 @@ it('parses facebook user', async () => {
     id: '123',
     name: 'Test name',
     email: 'email@example.com',
-    picture: { data: { url: 'test.jpg' } }
+    picture: { data: { url: 'test.jpg' } },
   }
 
   nock('https://graph.facebook.com').get('/me').query(true).reply(200, fbUser)

@@ -5,16 +5,16 @@ const userRequest = (accessToken) => request({
   uri: 'https://api.github.com/user',
   json: true,
   qs: {
-    access_token: accessToken
-  }
+    access_token: accessToken,
+  },
 })
 
 const emailRequest = (accessToken) => request({
   uri: 'https://api.github.com/user/emails',
   json: true,
   qs: {
-    access_token: accessToken
-  }
+    access_token: accessToken,
+  },
 })
 
 export const getUser = (accessToken) =>
@@ -24,5 +24,5 @@ export const getUser = (accessToken) =>
       id: responseOfUserReq.id,
       name: responseOfUserReq.login,
       email: responseOfEmailReq[0].email,
-      picture: responseOfUserReq.avatar_url
+      picture: responseOfUserReq.avatar_url,
     }))

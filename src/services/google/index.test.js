@@ -10,7 +10,7 @@ it('parses google user', async () => {
     given_name: 'Test',
     family_name: 'Name',
     link: 'https://plus.google.com/123',
-    picture: 'test.jpg'
+    picture: 'test.jpg',
   }
 
   nock('https://www.googleapis.com/userinfo/v2').get('/me').query(true).reply(200, ggUser)
