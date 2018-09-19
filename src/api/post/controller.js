@@ -90,10 +90,10 @@ const search = (search_query, res, next) =>
     }))
     .then((posts) => ({
       best: posts.filter((_, index) => {
-        return index <= 5
+        return index < 5
       }),
       worst: posts.filter((_, index) => {
-        return index > posts.length - 5
+        return index >= posts.length - 5
       }).reverse(),
     }))
     .then(success(res))
