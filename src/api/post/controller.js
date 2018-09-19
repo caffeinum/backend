@@ -92,8 +92,13 @@ const search = (search_query, res, next) =>
         return 0
       }
     }))
-    .then((posts) => posts.filter((_, index) => {
-      return index < 5 || index > posts.length - 5
+    .then((posts) => ({
+      best: posts.filter((_, index) => {
+        return index < 5
+      }),
+      worst: posts.filter((_, index) => {
+        return index > posts.length - 5
+      }).reverse(),
     }))
     .then(success(res))
     .catch(next)
