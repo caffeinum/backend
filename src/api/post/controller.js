@@ -64,11 +64,37 @@ const search = (search_query, res, next) =>
       }
     }
   ])
-    .then((posts) => posts.map(post => ({
+    .then((posts) => posts.map(post => {
+      let entity
+
+      try {
+        entity = post.sentiment[0].entities[0][search_query] || {}
+      } catch (err) {
+        entity = {}
+      }
+
+      return {
         ...post,
-        sentiment: post.sentiment[0] ? post.sentiment[0].entities[0] : [],
-      })
-    ))
+        // sentiment: [],
+        // id: post._id,
+        entity,
+      }
+    }))
+    .then((posts) => posts.sort((post1, post2) => {
+      try {
+        const s1 = parseFloat(post1.entity.sentiment) || 0
+        const s2 = parseFloat(post2.entity.sentiment) || 0
+
+        console.log(s1, s2)
+
+        return s2 - s1
+      } catch (err) {
+        return 0
+      }
+    }))
+    .then((posts) => posts.filter((_, index) => {
+      return index < 5 || index > posts.length - 5
+    }))
     .then(success(res))
     .catch(next)
 
