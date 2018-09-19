@@ -55,6 +55,7 @@ postSchema.methods = {
 
     return full ? {
       ...view,
+      sentiment: this.sentiment || {},
       // add properties for a full view
     } : view
   },

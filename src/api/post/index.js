@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
+import { create, index, show, update, destroy, searchByQuery, searchByParams, showSentiment } from './controller'
 import { schema } from './model'
 export Post, { schema } from './model'
 
@@ -46,6 +46,20 @@ router.get('/',
   index)
 
 /**
+ * @api {get} /posts/search/:q Find post
+ * @apiName FindPost
+ * @apiGroup Post
+ * @apiSuccess {Object[]} post Post's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 Post not found.
+ */
+router.get('/search/:q',
+  searchByParams)
+
+router.get('/search',
+  searchByQuery)
+
+/**
  * @api {get} /posts/:id Retrieve post
  * @apiName RetrievePost
  * @apiGroup Post
@@ -55,6 +69,19 @@ router.get('/',
  */
 router.get('/:id',
   show)
+
+
+/**
+ * @api {get} /posts/:id Retrieve post
+ * @apiName RetrievePost
+ * @apiGroup Post
+ * @apiSuccess {Object} post Post's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 Post not found.
+ */
+router.get('/:id/sentiment',
+  showSentiment)
+
 
 /**
  * @api {put} /posts/:id Update post

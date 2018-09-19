@@ -1,5 +1,6 @@
 import { success, notFound } from '../../services/response/'
 import { Post } from '.'
+import { Sentiment } from '../sentiment'
 
 export const create = ({ bodymen: { body } }, res, next) =>
   Post.create(body)
@@ -49,4 +50,40 @@ export const destroy = ({ params }, res, next) =>
     .then(notFound(res))
     .then((post) => post ? post.remove() : null)
     .then(success(res, 204))
+    .catch(next)
+
+const search = (search_query, res, next) =>
+  Post.aggregate([
+    { $match: { search_query } },
+    {
+      $lookup: {
+        from: 'sentiments',
+        localField: 'url',
+        foreignField: 'url',
+        as: 'sentiment',
+      }
+    }
+  ])
+    .then((posts) => posts.map(post => ({
+        ...post,
+        sentiment: post.sentiment[0] ? post.sentiment[0].entities[0] : [],
+      })
+    ))
+    .then(success(res))
+    .catch(next)
+
+export const searchByQuery = ({ query: { q } }, res, next) =>
+  search(q, res, next)
+
+export const searchByParams = ({ params: { q } }, res, next) =>
+  search(q, res, next)
+
+export const showSentiment = ({ params }, res, next) =>
+  Post.findById(params.id)
+    .then(notFound(res))
+    .then(post => post.url)
+    .then(url => Sentiment.findOne({ url }))
+    .then(notFound(res))
+    .then((sentiment) => sentiment ? sentiment.view() : null)
+    .then(success(res))
     .catch(next)
