@@ -75,8 +75,6 @@ const search = (search_query, res, next) =>
 
       return {
         ...post,
-        // sentiment: [],
-        // id: post._id,
         entity,
       }
     }))
@@ -84,8 +82,6 @@ const search = (search_query, res, next) =>
       try {
         const s1 = parseFloat(post1.entity.sentiment) || 0
         const s2 = parseFloat(post2.entity.sentiment) || 0
-
-        console.log(s1, s2)
 
         return s2 - s1
       } catch (err) {
