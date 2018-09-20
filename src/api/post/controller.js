@@ -1,5 +1,6 @@
 import { success, notFound } from '../../services/response/'
 import { Post } from '.'
+import { Entity } from '../entity'
 import { Sentiment } from '../sentiment'
 
 export const create = ({ bodymen: { body } }, res, next) =>
@@ -50,6 +51,15 @@ export const destroy = ({ params }, res, next) =>
     .then(notFound(res))
     .then((post) => post ? post.remove() : null)
     .then(success(res, 204))
+    .catch(next)
+
+
+export const getEntities = ({ params }, res, next) =>
+  Post.findById(params.id)
+    .then(notFound(res))
+    .then(post => Entity.find({ post: post.id }))
+    .then(entities => entities.map(entity => entity.view()))
+    .then(success(res, 200))
     .catch(next)
 
 const search = (search_query, res, next) =>

@@ -3,6 +3,7 @@ import user from './user'
 import auth from './auth'
 import post from './post'
 import sentiment from './sentiment'
+import entity from './entity'
 
 const router = new Router()
 
@@ -33,5 +34,6 @@ router.use('/users', user)
 router.use('/auth', auth)
 router.use('/posts', post)
 router.use('/sentiments', sentiment)
+router.use('/entities', entity)
 
 export default router
