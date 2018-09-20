@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
-import { create, index, show, update, destroy, searchByQuery, searchByParams, showSentiment, getEntities } from './controller'
+import { create, index, show, update, destroy, search, showSentiment, getEntities } from './controller'
 import { schema } from './model'
 export Post, { schema } from './model'
 
@@ -46,7 +46,7 @@ router.get('/',
   index)
 
 /**
- * @api {get} /posts/search/:q Find post
+ * @api {get} /posts/search/:q Find posts
  * @apiName FindPost
  * @apiGroup Post
  * @apiSuccess {Object[]} post Post's data.
@@ -54,10 +54,10 @@ router.get('/',
  * @apiError 404 Post not found.
  */
 router.get('/search/:q',
-  searchByParams)
+  search)
 
 router.get('/search',
-  searchByQuery)
+  search)
 
 /**
  * @api {get} /posts/:id Retrieve post

@@ -53,6 +53,24 @@ export const destroy = ({ params }, res, next) =>
     .then(success(res, 204))
     .catch(next)
 
+export const findNotProcessed = ({ params }, res, next) =>
+  Post.aggregate([
+    {
+      $lookup: {
+        from: 'entities',
+        localField: '_id',
+        foreignField: 'post',
+        as: 'entities'
+      }
+    },
+    {
+      $match: {
+        "entities": { $exists: true, $size: 0 },
+      }
+    }
+  ])
+    .then(success(res, 200))
+    .catch(next)
 
 export const getEntities = ({ params }, res, next) =>
   Post.findById(params.id)
@@ -62,23 +80,60 @@ export const getEntities = ({ params }, res, next) =>
     .then(success(res, 200))
     .catch(next)
 
-const search = (search_query, res, next) =>
-  Post.aggregate([
-    { $match: { search_query } },
-    {
-      $lookup: {
-        from: 'sentiments',
-        localField: 'url',
-        foreignField: 'url',
-        as: 'sentiment',
-      }
+
+const aggregatePostsWithEntities = ({ q, isProcessed }) => {
+  let query = []
+
+  if (q !== undefined) {
+    query.push({ $match: { search_query: q } })
+  }
+
+  query.push({
+    $lookup: {
+      from: 'entities',
+      localField: '_id',
+      foreignField: 'post',
+      as: 'entities',
     }
-  ])
+  })
+
+  query.push({
+    $lookup: {
+      from: 'sentiments',
+      localField: 'url',
+      foreignField: 'url',
+      as: 'sentiments',
+    }
+  })
+
+  // query.push({
+  //   $sort: {
+  //     'entities[$search_query]': 1
+  //   }
+  // })
+
+  if (isProcessed !== undefined) {
+    query.push({
+      $match: {
+        "entities": (isProcessed !== 'false' && isProcessed != 0)
+          ? { $exists: true, $ne:  [] }
+          : { $exists: true, $size: 0 }
+      }
+    })
+  }
+
+  return Post.aggregate(query)
+}
+
+const findPosts = ({ q, isProcessed, filterOutput }) =>
+  aggregatePostsWithEntities({ q, isProcessed })
     .then((posts) => posts.map(post => {
       let entity
 
       try {
-        entity = post.sentiment[0].entities[0][search_query] || {}
+        entity = post.sentiments[0].entities[0][q]
+          || post.entities[q]
+          || {}
       } catch (err) {
         entity = {}
       }
@@ -98,22 +153,22 @@ const search = (search_query, res, next) =>
         return 0
       }
     }))
-    .then((posts) => ({
-      best: posts.filter((_, index) => {
-        return index < 5
-      }),
-      worst: posts.filter((_, index) => {
-        return index >= posts.length - 5
-      }).reverse(),
-    }))
+    .then((posts) => (!filterOutput)
+      ? posts
+      : ({
+        best: posts.filter((_, index) => {
+          return index < 5
+        }),
+        worst: posts.filter((_, index) => {
+          return index >= posts.length - 5
+        }).reverse(),
+      })
+    )
+
+export const search = ({ query, params }, res, next) =>
+  findPosts({ ...params, ...query })
     .then(success(res))
     .catch(next)
-
-export const searchByQuery = ({ query: { q } }, res, next) =>
-  search(q, res, next)
-
-export const searchByParams = ({ params: { q } }, res, next) =>
-  search(q, res, next)
 
 export const showSentiment = ({ params }, res, next) =>
   Post.findById(params.id)
