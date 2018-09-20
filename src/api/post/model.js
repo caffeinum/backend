@@ -28,6 +28,9 @@ const postSchema = new Schema({
   },
   keywords: {
     type: [String],
+  },
+  publishedAt: {
+    type: Date,
   }
 }, {
   timestamps: true,
@@ -51,6 +54,7 @@ postSchema.methods = {
       summary: this.summary,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      publishedAt: this.publishedAt,
     }
 
     return full ? {

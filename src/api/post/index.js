@@ -7,7 +7,7 @@ import { schema } from './model'
 export Post, { schema } from './model'
 
 const router = new Router()
-const { title, url, author, image, search_query, keywords, summary, text } = schema.tree
+const { title, url, author, image, search_query, keywords, summary, text, publishedAt } = schema.tree
 
 /**
  * @api {post} /posts Create post
@@ -29,7 +29,7 @@ const { title, url, author, image, search_query, keywords, summary, text } = sch
  */
 router.post('/',
   token({ required: true, roles: ['admin'] }),
-  body({ title, url, author, image, search_query, keywords, summary, text }),
+  body({ title, url, author, image, search_query, keywords, summary, text, publishedAt }),
   create)
 
 /**
@@ -101,7 +101,7 @@ router.get('/:id/sentiment',
  */
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
-  body({ title, url, author, image, search_query, keywords, summary, text }),
+  body({ title, url, author, image, search_query, keywords, summary, text, publishedAt }),
   update)
 
 /**
